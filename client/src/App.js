@@ -24,6 +24,7 @@ import SalonsPublic from './pages/public/SalonsPublic'
 import WorkersPublic from './pages/public/WorkersPublic'
 import AddOrder from './pages/public/AddOrder'
 import OrdersPublic from './pages/public/OrdersPublic'
+import Register from './pages/public/Register'
 import Login from './pages/public/Login'
 
 const App = () => {
@@ -57,6 +58,7 @@ const App = () => {
             <Route path="/workers" element={<WorkersPublic />} />
             <Route path="/order/:salonId" element={<AddOrder />} />
             <Route path="/orders" element={<OrdersPublic />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
           </Routes>
         </div>

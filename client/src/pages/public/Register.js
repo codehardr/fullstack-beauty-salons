@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import MainContext from '../../context/MainContext'
 
-const Login = () => {
-  const { setAlert, setUserInfo } = useContext(MainContext)
+const Register = () => {
+  const [form, setForm] = useState({})
 
-  const [form, setForm] = useState({ email: '', password: '' })
+  const { setAlert } = useContext(MainContext)
 
   const navigate = useNavigate()
 
@@ -14,16 +14,13 @@ const Login = () => {
 
   const handleSubmit = e => {
     e.preventDefault()
+
     axios
-      .post('/api/users/login/', form)
+      .post('/api/users/register/', form)
       .then(resp => {
-        setUserInfo(resp.data.user)
-        setAlert({ msg: resp.data.message, status: 'success' })
+        setAlert({ msg: resp.data, status: 'success' })
         window.scrollTo(0, 0)
-        setTimeout(() => {
-          if (resp.data.user.role === 1) navigate('/admin')
-          navigate('/')
-        }, 1500)
+        setTimeout(() => navigate('/login'), 1500)
       })
       .catch(error => {
         setAlert({ msg: error.response.data, status: 'danger' })
@@ -33,8 +30,16 @@ const Login = () => {
 
   return (
     <>
-      <h1>Prisijungimas</h1>
+      <h1>Register</h1>
       <form onSubmit={handleSubmit}>
+        <div>
+          <label>First Name:</label>
+          <input type="text" name="first_name" onChange={handleForm} />
+        </div>
+        <div>
+          <label>Last Name:</label>
+          <input type="text" name="last_name" onChange={handleForm} />
+        </div>
         <div>
           <label>Email:</label>
           <input type="email" name="email" onChange={handleForm} />
@@ -44,11 +49,11 @@ const Login = () => {
           <input type="password" name="password" onChange={handleForm} />
         </div>
         <div>
-          <input type="submit" className="btn" value="Login" />
+          <input type="submit" className="btn" value="Register" />
         </div>
       </form>
     </>
   )
 }
 
-export default Login
+export default Register
