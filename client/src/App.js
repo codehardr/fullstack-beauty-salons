@@ -24,11 +24,14 @@ import SalonsPublic from './pages/public/SalonsPublic'
 import WorkersPublic from './pages/public/WorkersPublic'
 import AddOrder from './pages/public/AddOrder'
 import OrdersPublic from './pages/public/OrdersPublic'
+import Login from './pages/public/Login'
 
 const App = () => {
   const [alert, setAlert] = useState({ msg: '', status: '' })
 
-  const contextValues = { alert, setAlert }
+  const [userInfo, setUserInfo] = useState({})
+
+  const contextValues = { alert, setAlert, userInfo, setUserInfo }
 
   return (
     <BrowserRouter>
@@ -54,6 +57,7 @@ const App = () => {
             <Route path="/workers" element={<WorkersPublic />} />
             <Route path="/order/:salonId" element={<AddOrder />} />
             <Route path="/orders" element={<OrdersPublic />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </div>
       </MainContext.Provider>
