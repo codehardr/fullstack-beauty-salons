@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import axios from 'axios'
 
 import MainContext from './context/MainContext'
 
@@ -33,6 +34,8 @@ const App = () => {
   const [userInfo, setUserInfo] = useState({})
 
   const contextValues = { alert, setAlert, userInfo, setUserInfo }
+
+  useEffect(() => axios.get('/api/users/check-auth/').then(resp => setUserInfo(resp.data)), [])
 
   return (
     <BrowserRouter>

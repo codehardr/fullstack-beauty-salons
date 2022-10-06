@@ -162,17 +162,20 @@ header div {
   display: flex;
   gap: 10px;
 }
-header button {
+header button,
+.head-btn {
   border: 2px solid var(--secondary);
   background-color: var(--primary);
   color: var(--secondary);
   padding: 5px 10px;
   font-weight: bold;
+  font-size: 0.8em;
   cursor: pointer;
   transition: all 300ms ease-in;
 }
 
-header button:hover {
+header button:hover,
+.head-btn:hover {
   background-color: var(--secondary);
   color: var(--primary);
 }

@@ -1,6 +1,10 @@
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import MainContext from '../context/MainContext'
 
 const Header = () => {
+  const { userInfo } = useContext(MainContext)
+
   return (
     <header>
       <p className="logo">
@@ -35,8 +39,13 @@ const Header = () => {
           </li>
         </ul>
         <div>
-          <button>Login</button>
-          <button>Register</button>
+          <Link to="/register" className="head-btn">
+            Register
+          </Link>
+          <Link to="/login" className="head-btn">
+            Login
+          </Link>
+          <button>Logout</button>
         </div>
       </nav>
     </header>
