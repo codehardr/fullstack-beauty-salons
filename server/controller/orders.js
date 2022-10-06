@@ -1,11 +1,12 @@
 import express from 'express'
 import db from '../database/connect.js'
 import { ordersValidator } from '../middleware/validate.js'
+import { auth, adminAuth } from '../middleware/auth.js'
 
 const router = express.Router()
 
 // ADMIN orders list
-router.get('/', async (req, res) => {
+router.get('/', adminAuth, async (req, res) => {
   try {
     const orders = await db.orders.findAll({
       include: [
@@ -21,9 +22,8 @@ router.get('/', async (req, res) => {
 })
 
 // USER orders list
-router.get('/user', async (req, res) => {
-  // TEMP solution
-  const user_id = 1
+router.get('/user', auth, async (req, res) => {
+  const user_id = req.session.user.id
 
   try {
     const orders = await db.orders.findAll({
@@ -38,7 +38,7 @@ router.get('/user', async (req, res) => {
   }
 })
 
-router.get('/single/:id', async (req, res) => {
+router.get('/single/:id', adminAuth, async (req, res) => {
   try {
     const order = await db.orders.findByPk(req.params.id)
     res.json(order)
@@ -48,8 +48,9 @@ router.get('/single/:id', async (req, res) => {
   }
 })
 
-router.post('/new', ordersValidator, async (req, res) => {
+router.post('/new', auth, ordersValidator, async (req, res) => {
   try {
+    req.body.userId = req.session.user.id
     await db.orders.create(req.body)
     res.send('New order successfully created')
   } catch (error) {
@@ -58,7 +59,7 @@ router.post('/new', ordersValidator, async (req, res) => {
   }
 })
 
-router.put('/edit/:id', ordersValidator, async (req, res) => {
+router.put('/edit/:id', adminAuth, ordersValidator, async (req, res) => {
   try {
     const order = await db.orders.findByPk(req.params.id)
     await order.update(req.body)
@@ -69,7 +70,7 @@ router.put('/edit/:id', ordersValidator, async (req, res) => {
   }
 })
 
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', adminAuth, async (req, res) => {
   try {
     const order = await db.orders.findByPk(req.params.id)
     await order.destroy()

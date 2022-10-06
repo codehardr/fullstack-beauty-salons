@@ -1,11 +1,12 @@
 import express from 'express'
 import db from '../database/connect.js'
 import { ratingsValidator } from '../middleware/validate.js'
+import { auth } from '../middleware/auth.js'
 
 const router = express.Router()
 
-router.post('/worker/:wid/order/:oid', ratingsValidator, async (req, res) => {
-  const user_id = 1 //temp
+router.post('/worker/:wid/order/:oid', auth, ratingsValidator, async (req, res) => {
+  const user_id = req.session.user.id
 
   req.body.userId = user_id
 

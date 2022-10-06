@@ -25,6 +25,7 @@ const AddOrder = () => {
       .post('/api/orders/new', form)
       .then(resp => {
         setAlert({ msg: resp.data, status: 'success' })
+        window.scrollTo(0, 0)
         navigate('/orders')
       })
       .catch(error => {

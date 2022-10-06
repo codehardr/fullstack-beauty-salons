@@ -23,7 +23,7 @@ const OrdersPublic = () => {
 
   useEffect(() => {
     axios
-      .get('/api/orders/user')
+      .get('/api/orders/user/')
       .then(resp => setOrders(resp.data))
       .catch(error => {
         setAlert({ msg: error.response.data, status: 'danger' })

@@ -1,6 +1,7 @@
 import express from 'express'
 import db from '../database/connect.js'
 import { salonsValidator } from '../middleware/validate.js'
+import { adminAuth } from '../middleware/auth.js'
 
 const router = express.Router()
 
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.get('/single/:id', async (req, res) => {
+router.get('/single/:id', adminAuth, async (req, res) => {
   try {
     const salon = await db.salons.findByPk(req.params.id)
     res.json(salon)
@@ -27,7 +28,7 @@ router.get('/single/:id', async (req, res) => {
   }
 })
 
-router.post('/new', salonsValidator, async (req, res) => {
+router.post('/new', adminAuth, salonsValidator, async (req, res) => {
   try {
     await db.salons.create(req.body)
     res.send('New salon successfully added')
@@ -37,7 +38,7 @@ router.post('/new', salonsValidator, async (req, res) => {
   }
 })
 
-router.put('/edit/:id', salonsValidator, async (req, res) => {
+router.put('/edit/:id', adminAuth, salonsValidator, async (req, res) => {
   try {
     const salon = await db.salons.findByPk(req.params.id)
     await salon.update(req.body)
@@ -48,7 +49,7 @@ router.put('/edit/:id', salonsValidator, async (req, res) => {
   }
 })
 
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', adminAuth, async (req, res) => {
   try {
     const salon = await db.salons.findByPk(req.params.id)
     await salon.destroy()

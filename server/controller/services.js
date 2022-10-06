@@ -1,10 +1,11 @@
 import express from 'express'
 import db from '../database/connect.js'
 import { servicesValidator } from '../middleware/validate.js'
+import { auth, adminAuth } from '../middleware/auth.js'
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   const options = { include: { model: db.salons, attributes: ['name'] } }
 
   if (req.query.salonId) options.where = { salonId: req.query.salonId }
@@ -18,7 +19,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.get('/single/:id', async (req, res) => {
+router.get('/single/:id', adminAuth, async (req, res) => {
   try {
     const service = await db.services.findByPk(req.params.id)
     res.json(service)
@@ -28,7 +29,7 @@ router.get('/single/:id', async (req, res) => {
   }
 })
 
-router.post('/new', servicesValidator, async (req, res) => {
+router.post('/new', adminAuth, servicesValidator, async (req, res) => {
   try {
     await db.services.create(req.body)
     res.send('New service successfully added')
@@ -38,7 +39,7 @@ router.post('/new', servicesValidator, async (req, res) => {
   }
 })
 
-router.put('/edit/:id', servicesValidator, async (req, res) => {
+router.put('/edit/:id', adminAuth, servicesValidator, async (req, res) => {
   try {
     const service = await db.services.findByPk(req.params.id)
     await service.update(req.body)
@@ -49,7 +50,7 @@ router.put('/edit/:id', servicesValidator, async (req, res) => {
   }
 })
 
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', adminAuth, async (req, res) => {
   try {
     const service = await db.services.findByPk(req.params.id)
     await service.destroy()
