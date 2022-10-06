@@ -33,7 +33,7 @@ const Login = () => {
 
   return (
     <>
-      <h1>Prisijungimas</h1>
+      <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email:</label>

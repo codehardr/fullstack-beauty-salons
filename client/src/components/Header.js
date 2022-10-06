@@ -1,9 +1,20 @@
 import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import MainContext from '../context/MainContext'
 
 const Header = () => {
-  const { userInfo } = useContext(MainContext)
+  const navigate = useNavigate()
+
+  const { setAlert, userInfo, setUserInfo } = useContext(MainContext)
+
+  const handleLogout = () => {
+    axios.get('/api/users/logout/').then(resp => {
+      setUserInfo({})
+      setAlert({ msg: resp.data, status: 'success' })
+      navigate('/')
+    })
+  }
 
   return (
     <header>
@@ -39,13 +50,18 @@ const Header = () => {
           </li>
         </ul>
         <div>
-          <Link to="/register" className="head-btn">
-            Register
-          </Link>
-          <Link to="/login" className="head-btn">
-            Login
-          </Link>
-          <button>Logout</button>
+          {userInfo.id ? (
+            <button onClick={handleLogout}>Logout</button>
+          ) : (
+            <>
+              <Link to="/register" className="head-btn">
+                Register
+              </Link>
+              <Link to="/login" className="head-btn">
+                Login
+              </Link>
+            </>
+          )}
         </div>
       </nav>
     </header>
