@@ -55,6 +55,9 @@ try {
   database.workers.hasMany(database.orders)
   database.orders.belongsTo(database.workers)
 
+  database.orders.hasOne(database.ratings)
+  database.ratings.belongsTo(database.orders)
+
   await sequelize.sync({ alter: false })
 } catch {
   console.log('Database connection failed')

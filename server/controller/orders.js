@@ -28,11 +28,8 @@ router.get('/user', async (req, res) => {
   try {
     const orders = await db.orders.findAll({
       where: { userId: user_id },
-      include: [
-        { model: db.services, include: db.salons },
-        { model: db.users, include: db.ratings },
-        db.workers,
-      ],
+      include: [{ model: db.services, include: db.salons }, db.workers, db.ratings],
+      group: ['id'],
     })
     res.json(orders)
   } catch (error) {
