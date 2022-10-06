@@ -10,10 +10,9 @@ const OrdersPublic = () => {
 
   const [orders, setOrders] = useState([])
 
-  const handleRatings = (e, workerId) => {
-    console.log(workerId)
+  const handleRatings = (e, workerId, orderId) => {
     axios
-      .post('/api/ratings/worker/' + workerId, { rating: e.target.value })
+      .post('/api/ratings/worker/' + workerId + '/order/' + orderId, { rating: e.target.value })
       .then(resp => setAlert({ msg: resp.data, status: 'success' }))
       .catch(error => {
         setAlert({ msg: error.response.data, status: 'danger' })
@@ -57,13 +56,17 @@ const OrdersPublic = () => {
                 <td>{order.service?.name}</td>
                 <td>{order.worker?.first_name + ' ' + order.worker?.last_name}</td>
                 <td>
-                  <select onChange={e => handleRatings(e, order.workerId)}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
+                  {order.rating ? (
+                    'Your rating: ' + order.rating.rating
+                  ) : (
+                    <select onChange={e => handleRatings(e, order.workerId, order.id)}>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  )}
                 </td>
                 <td>{new Date(order.order_date).toLocaleString('lt-LT')}</td>
                 <td>{order.status ? '✅ Confirmed' : '❎ Waiting for confirmation...'}</td>
