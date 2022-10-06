@@ -22,7 +22,7 @@ const Header = () => {
         <span>N</span>eon<span>B</span>angs<span>'96</span>
       </p>
       <nav>
-        <span>Public:</span>
+        {userInfo.role === 1 && <span>Public:</span>}
         <ul>
           <li>
             <Link to="/">Salons</Link>
@@ -30,25 +30,31 @@ const Header = () => {
           <li>
             <Link to="/workers">Workers</Link>
           </li>
-          <li>
-            <Link to="/orders">Orders</Link>
-          </li>
+          {userInfo.id && (
+            <li>
+              <Link to="/orders">Orders</Link>
+            </li>
+          )}
         </ul>
-        <span>Admin:</span>
-        <ul>
-          <li>
-            <Link to="/admin/salons">Salons</Link>
-          </li>
-          <li>
-            <Link to="/admin/services">Services</Link>
-          </li>
-          <li>
-            <Link to="/admin/workers">Workers</Link>
-          </li>
-          <li>
-            <Link to="/admin/orders">Orders</Link>
-          </li>
-        </ul>
+        {userInfo.role === 1 && (
+          <>
+            <span>Admin:</span>
+            <ul>
+              <li>
+                <Link to="/admin/salons">Salons</Link>
+              </li>
+              <li>
+                <Link to="/admin/services">Services</Link>
+              </li>
+              <li>
+                <Link to="/admin/workers">Workers</Link>
+              </li>
+              <li>
+                <Link to="/admin/orders">Orders</Link>
+              </li>
+            </ul>
+          </>
+        )}
         <div>
           {userInfo.id ? (
             <button onClick={handleLogout}>Logout</button>

@@ -28,8 +28,6 @@ const WorkersPublic = () => {
 
     url += searchParams.toString()
 
-    console.log(url)
-
     axios
       .get(url)
       .then(resp => {

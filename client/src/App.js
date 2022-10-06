@@ -46,25 +46,35 @@ const App = () => {
         <div className="container">
           <Alert />
           <Routes>
-            <Route path="admin">
-              <Route path="salons" element={<Salons />} />
-              <Route path="salons/new" element={<AddSalon />} />
-              <Route path="salons/edit/:id" element={<EditSalon />} />
-              <Route path="services" element={<Services />} />
-              <Route path="services/new" element={<AddService />} />
-              <Route path="services/edit/:id" element={<EditService />} />
-              <Route path="workers" element={<Workers />} />
-              <Route path="workers/new" element={<AddWorker />} />
-              <Route path="workers/edit/:id" element={<EditWorker />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="orders/edit/:id" element={<EditOrder />} />
-            </Route>
+            {userInfo.role === 1 && (
+              <Route path="admin">
+                <Route path="salons" element={<Salons />} />
+                <Route path="salons/new" element={<AddSalon />} />
+                <Route path="salons/edit/:id" element={<EditSalon />} />
+                <Route path="services" element={<Services />} />
+                <Route path="services/new" element={<AddService />} />
+                <Route path="services/edit/:id" element={<EditService />} />
+                <Route path="workers" element={<Workers />} />
+                <Route path="workers/new" element={<AddWorker />} />
+                <Route path="workers/edit/:id" element={<EditWorker />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="orders/edit/:id" element={<EditOrder />} />
+              </Route>
+            )}
             <Route path="/" element={<SalonsPublic />} />
             <Route path="/workers" element={<WorkersPublic />} />
-            <Route path="/order/:salonId" element={<AddOrder />} />
-            <Route path="/orders" element={<OrdersPublic />} />
+
+            {userInfo.id && (
+              <>
+                <Route path="/order/:salonId" element={<AddOrder />} />
+                <Route path="/orders" element={<OrdersPublic />} />
+              </>
+            )}
+
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+
+            <Route path="*" element={<Login />} />
           </Routes>
         </div>
       </MainContext.Provider>

@@ -4,7 +4,7 @@ import axios from 'axios'
 import MainContext from '../../context/MainContext'
 
 const SalonsPublic = () => {
-  const { setAlert } = useContext(MainContext)
+  const { setAlert, userInfo } = useContext(MainContext)
 
   const [salons, setSalons] = useState([])
 
@@ -39,7 +39,7 @@ const SalonsPublic = () => {
               <div>{salon.address}</div>
               <div>{salon.phone}</div>
               <div>
-                <Link to={'/order/' + salon.id} className="btn">
+                <Link to={userInfo.id ? '/order/' + salon.id : '/login'} className="btn">
                   Place an Order
                 </Link>
               </div>
