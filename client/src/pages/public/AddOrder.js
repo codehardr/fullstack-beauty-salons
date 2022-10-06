@@ -25,7 +25,7 @@ const AddOrder = () => {
       .post('/api/orders/new', form)
       .then(resp => {
         setAlert({ msg: resp.data, status: 'success' })
-        navigate('/')
+        navigate('/orders')
       })
       .catch(error => {
         setAlert({ msg: error.response.data, status: 'danger' })

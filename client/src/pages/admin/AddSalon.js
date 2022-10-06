@@ -22,7 +22,7 @@ const AddSalon = () => {
       .post('/api/salons/new', form)
       .then(resp => {
         setAlert({ msg: resp.data, status: 'success' })
-        navigate('/admin')
+        navigate('/admin/salons')
       })
       .catch(error => {
         setAlert({ msg: error.response.data, status: 'danger' })
